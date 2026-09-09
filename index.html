@@ -1,0 +1,1353 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+
+<head>
+
+  <meta charset="UTF-8">
+
+  <!-- iPhone / Mobile -->
+  <meta name="viewport"
+        content="width=device-width,
+                 initial-scale=1,
+                 maximum-scale=1,
+                 minimum-scale=1,
+                 user-scalable=no,
+                 viewport-fit=cover">
+
+  <meta name="theme-color" content="#050507">
+
+  <title>GNAWI DNS</title>
+
+
+  <style>
+
+    /* =====================================================
+       RESET
+    ===================================================== */
+
+    * {
+      box-sizing: border-box;
+
+      -webkit-tap-highlight-color: transparent;
+
+      /* منع تحديد النص */
+      -webkit-user-select: none;
+      -moz-user-select: none;
+      user-select: none;
+    }
+
+
+    html {
+      margin: 0;
+      width: 100%;
+      min-height: 100%;
+
+      /* إخفاء Scrollbar */
+      scrollbar-width: none;
+      -ms-overflow-style: none;
+    }
+
+
+    html::-webkit-scrollbar {
+      display: none;
+      width: 0;
+      height: 0;
+    }
+
+
+    body {
+      margin: 0;
+
+      width: 100%;
+
+      min-height: 100vh;
+      min-height: 100dvh;
+
+      font-family:
+        -apple-system,
+        BlinkMacSystemFont,
+        "SF Pro Display",
+        "SF Pro Text",
+        "Segoe UI",
+        sans-serif;
+
+      color: #fff;
+
+
+      /* =====================================================
+         BACKGROUND
+      ===================================================== */
+
+      background:
+        radial-gradient(
+          circle at 10% 5%,
+          rgba(80, 130, 255, .28),
+          transparent 32%
+        ),
+
+        radial-gradient(
+          circle at 95% 90%,
+          rgba(150, 70, 255, .24),
+          transparent 35%
+        ),
+
+        radial-gradient(
+          circle at 50% 50%,
+          rgba(255,255,255,.035),
+          transparent 55%
+        ),
+
+        #050507;
+
+
+      /* Layout */
+
+      display: flex;
+
+      justify-content: center;
+
+      align-items: center;
+
+
+      /* Safe Area */
+
+      padding:
+        max(24px, env(safe-area-inset-top))
+        18px
+        max(24px, env(safe-area-inset-bottom));
+
+
+      /* منع Scroll أفقي */
+
+      overflow-x: hidden;
+
+
+      /* إخفاء Scrollbar */
+
+      scrollbar-width: none;
+
+      -ms-overflow-style: none;
+
+
+      /* منع تحديد النص */
+
+      -webkit-user-select: none;
+
+      user-select: none;
+
+
+      /* منع بعض إيماءات المتصفح */
+
+      -webkit-touch-callout: none;
+
+      touch-action: manipulation;
+    }
+
+
+    body::-webkit-scrollbar {
+      display: none;
+
+      width: 0;
+
+      height: 0;
+    }
+
+
+    /* =====================================================
+       BACKGROUND LIGHTS
+    ===================================================== */
+
+    body::before,
+    body::after {
+
+      content: "";
+
+      position: fixed;
+
+      width: 220px;
+
+      height: 220px;
+
+      border-radius: 50%;
+
+      filter: blur(70px);
+
+      opacity: .35;
+
+      pointer-events: none;
+
+      animation:
+        float 8s ease-in-out infinite alternate;
+    }
+
+
+    body::before {
+
+      background: #3478ff;
+
+      top: -100px;
+
+      left: -80px;
+    }
+
+
+    body::after {
+
+      background: #8b42ff;
+
+      right: -90px;
+
+      bottom: -100px;
+
+      animation-delay: -3s;
+    }
+
+
+    @keyframes float {
+
+      from {
+        transform: translate(0, 0);
+      }
+
+      to {
+        transform: translate(25px, 30px);
+      }
+
+    }
+
+
+    /* =====================================================
+       CONTAINER
+    ===================================================== */
+
+    .container {
+
+      width: 100%;
+
+      max-width: 430px;
+
+      position: relative;
+
+      z-index: 2;
+    }
+
+
+    /* =====================================================
+       MAIN GLASS CARD
+    ===================================================== */
+
+    .card {
+
+      position: relative;
+
+      padding: 34px 22px 24px;
+
+      text-align: center;
+
+      border-radius: 38px;
+
+
+      background:
+        linear-gradient(
+          145deg,
+          rgba(255,255,255,.115),
+          rgba(255,255,255,.045)
+        );
+
+
+      border:
+        1px solid rgba(255,255,255,.15);
+
+
+      backdrop-filter:
+        blur(35px)
+        saturate(150%);
+
+      -webkit-backdrop-filter:
+        blur(35px)
+        saturate(150%);
+
+
+      box-shadow:
+
+        0 35px 90px rgba(0,0,0,.58),
+
+        inset 0 1px rgba(255,255,255,.16),
+
+        inset 0 -1px rgba(255,255,255,.03);
+
+
+      overflow: hidden;
+    }
+
+
+    /* =====================================================
+       GLASS REFLECTION
+    ===================================================== */
+
+    .card::before {
+
+      content: "";
+
+      position: absolute;
+
+      top: 0;
+
+      left: 0;
+
+      width: 100%;
+
+      height: 45%;
+
+
+      background:
+        linear-gradient(
+          180deg,
+          rgba(255,255,255,.09),
+          transparent
+        );
+
+
+      pointer-events: none;
+    }
+
+
+    /* =====================================================
+       ICON
+    ===================================================== */
+
+    .icon-wrapper {
+
+      position: relative;
+
+      width: 132px;
+
+      height: 132px;
+
+      margin: 0 auto;
+
+      border-radius: 32px;
+
+      padding: 1px;
+
+
+      background:
+        linear-gradient(
+          145deg,
+          rgba(255,255,255,.55),
+          rgba(255,255,255,.08)
+        );
+
+
+      box-shadow:
+
+        0 25px 55px rgba(0,0,0,.55),
+
+        0 0 45px rgba(70,120,255,.12);
+    }
+
+
+    .icon {
+
+      width: 100%;
+
+      height: 100%;
+
+      object-fit: cover;
+
+      display: block;
+
+      border-radius: 31px;
+
+
+      /* منع سحب الصورة */
+
+      -webkit-user-drag: none;
+
+      user-drag: none;
+
+
+      pointer-events: none;
+    }
+
+
+    /* =====================================================
+       ICON SHINE
+    ===================================================== */
+
+    .shine {
+
+      position: absolute;
+
+      inset: 1px;
+
+      height: 55%;
+
+      border-radius:
+        31px 31px 55% 55%;
+
+
+      background:
+        linear-gradient(
+          135deg,
+          rgba(255,255,255,.42),
+          rgba(255,255,255,.04) 65%,
+          transparent
+        );
+
+
+      pointer-events: none;
+    }
+
+
+    /* =====================================================
+       STATUS
+    ===================================================== */
+
+    .status {
+
+      display: inline-flex;
+
+      align-items: center;
+
+      gap: 7px;
+
+      margin-top: 19px;
+
+      padding: 7px 12px;
+
+      border-radius: 999px;
+
+
+      background:
+        rgba(255,255,255,.07);
+
+
+      border:
+        1px solid rgba(255,255,255,.09);
+
+
+      color:
+        rgba(255,255,255,.7);
+
+
+      font-size: 12px;
+    }
+
+
+    .dot {
+
+      width: 7px;
+
+      height: 7px;
+
+      border-radius: 50%;
+
+
+      background: #63e68b;
+
+
+      box-shadow:
+        0 0 12px rgba(99,230,139,.7);
+    }
+
+
+    /* =====================================================
+       TITLE
+    ===================================================== */
+
+    h1 {
+
+      margin: 14px 0 5px;
+
+      font-size: 34px;
+
+      line-height: 1.1;
+
+      font-weight: 750;
+
+      letter-spacing: -1.3px;
+
+
+      background:
+        linear-gradient(
+          180deg,
+          #fff,
+          rgba(255,255,255,.68)
+        );
+
+
+      -webkit-background-clip: text;
+
+      background-clip: text;
+
+      color: transparent;
+    }
+
+
+    .subtitle {
+
+      margin: 0 0 27px;
+
+      color:
+        rgba(255,255,255,.55);
+
+      font-size: 14px;
+
+      line-height: 1.7;
+    }
+
+
+    /* =====================================================
+       INSTALL BUTTON
+    ===================================================== */
+
+    .install-button {
+
+      position: relative;
+
+      width: 100%;
+
+      display: flex;
+
+      align-items: center;
+
+      justify-content: center;
+
+      gap: 10px;
+
+      min-height: 58px;
+
+      padding: 16px 20px;
+
+      border-radius: 19px;
+
+
+      background:
+        linear-gradient(
+          135deg,
+          rgba(255,255,255,.98),
+          rgba(230,235,245,.92)
+        );
+
+
+      color: #070709;
+
+      text-decoration: none;
+
+      font-size: 17px;
+
+      font-weight: 750;
+
+
+      overflow: hidden;
+
+
+      box-shadow:
+
+        0 14px 35px rgba(0,0,0,.25),
+
+        0 0 30px rgba(255,255,255,.08);
+
+
+      transition:
+        transform .18s ease,
+        filter .18s ease;
+
+
+      cursor: pointer;
+
+
+      -webkit-user-select: none;
+
+      user-select: none;
+
+
+      -webkit-user-drag: none;
+    }
+
+
+    /* Keyboard Focus */
+
+    .install-button:focus {
+
+      outline: none;
+    }
+
+
+    .install-button:focus-visible {
+
+      outline:
+        3px solid rgba(255,255,255,.9);
+
+      outline-offset: 4px;
+
+
+      box-shadow:
+
+        0 14px 35px rgba(0,0,0,.25),
+
+        0 0 0 6px rgba(255,255,255,.12),
+
+        0 0 35px rgba(255,255,255,.18);
+    }
+
+
+    /* Button Shine */
+
+    .install-button::before {
+
+      content: "";
+
+      position: absolute;
+
+      top: 0;
+
+      left: -120%;
+
+      width: 80%;
+
+      height: 100%;
+
+
+      background:
+        linear-gradient(
+          100deg,
+          transparent,
+          rgba(255,255,255,.65),
+          transparent
+        );
+
+
+      transform: skewX(-20deg);
+
+
+      animation:
+        buttonShine 3.5s ease-in-out infinite;
+
+
+      pointer-events: none;
+    }
+
+
+    @keyframes buttonShine {
+
+      0%,
+      55% {
+        left: -120%;
+      }
+
+      75%,
+      100% {
+        left: 140%;
+      }
+
+    }
+
+
+    .install-button:hover {
+
+      filter: brightness(1.04);
+    }
+
+
+    .install-button:active {
+
+      transform: scale(.965);
+
+      filter: brightness(.9);
+    }
+
+
+    .button-icon {
+
+      width: 20px;
+
+      height: 20px;
+
+      display: flex;
+
+      align-items: center;
+
+      justify-content: center;
+
+      border-radius: 50%;
+
+
+      background: #09090b;
+
+      color: white;
+
+      font-size: 12px;
+
+
+      position: relative;
+
+      z-index: 2;
+    }
+
+
+    .button-text {
+
+      position: relative;
+
+      z-index: 2;
+    }
+
+
+    /* =====================================================
+       INFO
+    ===================================================== */
+
+    .info {
+
+      margin-top: 17px;
+
+      padding: 16px 17px;
+
+      border-radius: 19px;
+
+
+      background:
+        rgba(0,0,0,.20);
+
+
+      border:
+        1px solid rgba(255,255,255,.065);
+
+
+      color:
+        rgba(255,255,255,.58);
+
+
+      font-size: 13px;
+
+      line-height: 1.85;
+    }
+
+
+    .info strong {
+
+      color:
+        rgba(255,255,255,.95);
+    }
+
+
+    /* =====================================================
+       STEPS
+    ===================================================== */
+
+    .steps {
+
+      margin-top: 20px;
+
+      text-align: right;
+
+      display: flex;
+
+      flex-direction: column;
+
+      gap: 9px;
+
+
+      color:
+        rgba(255,255,255,.6);
+
+
+      font-size: 13px;
+
+      line-height: 1.6;
+    }
+
+
+    .step {
+
+      display: flex;
+
+      align-items: center;
+
+      gap: 10px;
+
+      padding: 9px 10px;
+
+      border-radius: 14px;
+
+
+      background:
+        rgba(255,255,255,.035);
+
+
+      border:
+        1px solid rgba(255,255,255,.045);
+    }
+
+
+    .number {
+
+      flex: 0 0 auto;
+
+      width: 25px;
+
+      height: 25px;
+
+      display: flex;
+
+      align-items: center;
+
+      justify-content: center;
+
+      border-radius: 50%;
+
+
+      background:
+        rgba(255,255,255,.09);
+
+
+      color: white;
+
+      font-size: 11px;
+
+      font-weight: 700;
+    }
+
+
+    .step strong {
+
+      color: #fff;
+    }
+
+
+    /* =====================================================
+       FOOTER
+    ===================================================== */
+
+    .footer {
+
+      margin-top: 22px;
+
+      color:
+        rgba(255,255,255,.28);
+
+      font-size: 10px;
+
+      letter-spacing: .3px;
+    }
+
+
+    /* =====================================================
+       SMALL IPHONE SCREENS
+    ===================================================== */
+
+    @media (max-height: 700px) {
+
+      .card {
+
+        padding-top: 24px;
+      }
+
+
+      .icon-wrapper {
+
+        width: 108px;
+
+        height: 108px;
+
+        border-radius: 27px;
+      }
+
+
+      .icon,
+      .shine {
+
+        border-radius: 26px;
+      }
+
+
+      h1 {
+
+        font-size: 29px;
+      }
+
+
+      .steps {
+
+        margin-top: 14px;
+      }
+
+    }
+
+
+    /* =====================================================
+       REDUCED MOTION
+    ===================================================== */
+
+    @media (prefers-reduced-motion: reduce) {
+
+      *,
+      *::before,
+      *::after {
+
+        animation: none !important;
+
+        transition: none !important;
+      }
+
+    }
+
+  </style>
+
+</head>
+
+
+<body>
+
+
+  <main class="container">
+
+    <section class="card">
+
+
+      <!-- =================================================
+           ICON
+      ================================================= -->
+
+      <div class="icon-wrapper">
+
+        <img
+          class="icon"
+          src="1.jpeg"
+          alt="GNAWI V2"
+          draggable="false"
+        >
+
+        <div class="shine"></div>
+
+      </div>
+
+
+      <!-- =================================================
+           STATUS
+      ================================================= -->
+
+      <div class="status">
+
+        <span class="dot"></span>
+
+        جاهز للتثبيت
+
+      </div>
+
+
+      <!-- =================================================
+           TITLE
+      ================================================= -->
+
+      <h1>
+        GNAWI V2
+      </h1>
+
+
+      <p class="subtitle">
+
+        تجربة حماية DNS بتصميم مستوحى من iOS
+
+      </p>
+
+
+      <!-- =================================================
+           INSTALL BUTTON
+      ================================================= -->
+
+      <a
+        class="install-button"
+        href="GNAWI-dns.mobileconfig"
+        aria-label="تثبيت GNAWI V2"
+      >
+
+        <span
+          class="button-icon"
+          aria-hidden="true"
+        >
+          ↓
+        </span>
+
+
+        <span class="button-text">
+
+          تثبيت GNAWI V2
+
+        </span>
+
+      </a>
+
+
+      <!-- =================================================
+           INFO
+      ================================================= -->
+
+      <div class="info">
+
+        استخدم
+
+        <strong>
+          Safari
+        </strong>
+
+        لبدء التثبيت، ثم افتح
+
+        <strong>
+          الإعدادات
+        </strong>
+
+        لإكمال تثبيت ملف التعريف.
+
+      </div>
+
+
+      <!-- =================================================
+           STEPS
+      ================================================= -->
+
+      <div class="steps">
+
+
+        <div class="step">
+
+          <span class="number">
+            1
+          </span>
+
+          <span>
+
+            اضغط على
+
+            <strong>
+              تثبيت GNAWI V2
+            </strong>
+
+          </span>
+
+        </div>
+
+
+        <div class="step">
+
+          <span class="number">
+            2
+          </span>
+
+          <span>
+
+            افتح تطبيق
+
+            <strong>
+              الإعدادات
+            </strong>
+
+          </span>
+
+        </div>
+
+
+        <div class="step">
+
+          <span class="number">
+            3
+          </span>
+
+          <span>
+
+            اختر
+
+            <strong>
+              تم تنزيل ملف التعريف
+            </strong>
+
+          </span>
+
+        </div>
+
+
+        <div class="step">
+
+          <span class="number">
+            4
+          </span>
+
+          <span>
+
+            اضغط
+
+            <strong>
+              تثبيت
+            </strong>
+
+          </span>
+
+        </div>
+
+
+      </div>
+
+
+      <!-- =================================================
+           FOOTER
+      ================================================= -->
+
+      <div class="footer">
+
+        GNAWI V2 • DNS By Mohamed Karam
+
+      </div>
+
+
+    </section>
+
+  </main>
+
+
+  <!-- =====================================================
+       JAVASCRIPT
+  ===================================================== -->
+
+  <script>
+
+
+    /* =====================================================
+       منع القائمة السياقية
+    ===================================================== */
+
+    document.addEventListener(
+      "contextmenu",
+      function(event) {
+
+        event.preventDefault();
+
+      }
+    );
+
+
+    /* =====================================================
+       منع تحديد النص
+    ===================================================== */
+
+    document.addEventListener(
+      "selectstart",
+      function(event) {
+
+        event.preventDefault();
+
+      }
+    );
+
+
+    /* =====================================================
+       منع سحب العناصر
+    ===================================================== */
+
+    document.addEventListener(
+      "dragstart",
+      function(event) {
+
+        event.preventDefault();
+
+      }
+    );
+
+
+    /* =====================================================
+       منع النسخ
+    ===================================================== */
+
+    document.addEventListener(
+      "copy",
+      function(event) {
+
+        event.preventDefault();
+
+      }
+    );
+
+
+    /* =====================================================
+       منع القص
+    ===================================================== */
+
+    document.addEventListener(
+      "cut",
+      function(event) {
+
+        event.preventDefault();
+
+      }
+    );
+
+
+    /* =====================================================
+       اختصارات لوحة المفاتيح
+    ===================================================== */
+
+    document.addEventListener(
+      "keydown",
+      function(event) {
+
+        const key =
+          event.key.toLowerCase();
+
+
+        const modifier =
+          event.ctrlKey ||
+          event.metaKey;
+
+
+        /*
+          منع:
+
+          Ctrl/Cmd + C
+          Ctrl/Cmd + X
+          Ctrl/Cmd + A
+          Ctrl/Cmd + S
+          Ctrl/Cmd + U
+        */
+
+        if (modifier) {
+
+          const blockedKeys = [
+
+            "c",
+            "x",
+            "a",
+            "s",
+            "u"
+
+          ];
+
+
+          if (
+            blockedKeys.includes(key)
+          ) {
+
+            event.preventDefault();
+
+          }
+
+        }
+
+
+        /*
+          منع F12
+
+          وبعض اختصارات أدوات المطور
+        */
+
+        if (
+
+          event.key === "F12"
+
+          ||
+
+          (
+            event.ctrlKey &&
+            event.shiftKey &&
+            ["i", "j", "c"].includes(key)
+          )
+
+        ) {
+
+          event.preventDefault();
+
+        }
+
+      },
+
+      true
+
+    );
+
+
+    /* =====================================================
+       زر التثبيت + لوحة المفاتيح
+    ===================================================== */
+
+    const installButton =
+      document.querySelector(
+        ".install-button"
+      );
+
+
+    /*
+      Enter يعمل بشكل طبيعي
+    */
+
+
+    /*
+      Space لفتح زر التثبيت
+    */
+
+    installButton.addEventListener(
+      "keydown",
+      function(event) {
+
+        if (
+          event.key === " "
+        ) {
+
+          event.preventDefault();
+
+          installButton.click();
+
+        }
+
+      }
+    );
+
+
+    /* =====================================================
+       منع بعض إيماءات Zoom
+    ===================================================== */
+
+    document.addEventListener(
+      "gesturestart",
+      function(event) {
+
+        event.preventDefault();
+
+      },
+      {
+        passive: false
+      }
+    );
+
+
+    document.addEventListener(
+      "gesturechange",
+      function(event) {
+
+        event.preventDefault();
+
+      },
+      {
+        passive: false
+      }
+    );
+
+
+    document.addEventListener(
+      "gestureend",
+      function(event) {
+
+        event.preventDefault();
+
+      },
+      {
+        passive: false
+      }
+    );
+
+
+  </script>
+
+
+</body>
+
+</html>
