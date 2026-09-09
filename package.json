@@ -1,0 +1,13 @@
+{
+  "name": "gnawi-dns",
+  "version": "1.0.0",
+  "description": "GNAWI DNS Profile Installer",
+  "type": "module",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "dependencies": {
+    "express": "^5.1.0"
+  }
+}
